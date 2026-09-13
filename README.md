@@ -95,8 +95,16 @@ A compact local AI/document-agent project focused on retrieval and practical ass
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=Evolut10n11&show_icons=true&hide_border=true&theme=transparent&rank_icon=github" alt="GitHub stats" />
-<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Evolut10n11&layout=compact&hide_border=true&theme=transparent&langs_count=8" alt="Top languages" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Evolut10n11/Evolut10n11/main/assets/metrics/stats-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Evolut10n11/Evolut10n11/main/assets/metrics/stats-light.svg" />
+  <img height="165" alt="GitHub stats" src="https://raw.githubusercontent.com/Evolut10n11/Evolut10n11/main/assets/metrics/stats-light.svg" />
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Evolut10n11/Evolut10n11/main/assets/metrics/languages-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Evolut10n11/Evolut10n11/main/assets/metrics/languages-light.svg" />
+  <img height="165" alt="Top languages" src="https://raw.githubusercontent.com/Evolut10n11/Evolut10n11/main/assets/metrics/languages-light.svg" />
+</picture>
 
 <br/>
 
