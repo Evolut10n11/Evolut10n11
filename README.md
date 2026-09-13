@@ -16,8 +16,10 @@ I build production-minded AI systems: LLM agents, RAG pipelines, realtime voice/
 ## What I'm building
 
 <!-- LUMEN:FOCUS_START -->
-> **Current focus — AI/LLM career leverage**  
-> Turning real production AI work into strong, measurable engineering cases: architecture, agent/RAG flow, observability, latency/quality evidence, failure modes, and trade-offs.
+> **Current focus — Strengthen AI/LLM career leverage**  
+> `career-ai-portfolio` · Lumen priority `10.00` (base `8.80`) · profile `ai-builder`  
+> Interview opportunities and senior AI roles reward concrete production evidence more than another broad study pass.  
+> **Next:** Turn one real LLM project into a one-page portfolio case: problem, architecture, models, RAG or agent flow, observability, measured latency or quality, failure modes, and the trade-offs you personally made.
 <!-- LUMEN:FOCUS_END -->
 
 I mostly work around the point where **LLM prototypes become systems**: routing, tool use, retrieval quality, fallbacks, tracing, API integrations, evaluation, latency, and operational safety.
