@@ -1,0 +1,40 @@
+name: Sync Lumen current focus
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/lumen-focus.yml"
+      - "scripts/sync_lumen_focus.py"
+  schedule:
+    - cron: "41 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v4
+
+      - name: Sync current focus from Lumen Lab
+        run: python scripts/sync_lumen_focus.py
+
+      - name: Commit updated focus when it changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- README.md; then
+            echo "README focus is already current."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "chore: sync Lumen current focus"
+          git push origin HEAD:main
