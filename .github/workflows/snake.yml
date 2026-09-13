@@ -1,0 +1,45 @@
+name: Generate contribution snake
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/snake.yml"
+  schedule:
+    - cron: "17 2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v4
+
+      - name: Generate light and dark contribution snakes
+        uses: Platane/snk/svg-only@v3.5.0
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+
+      - name: Publish generated SVGs to output branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/snake-output
+          cp dist/github-contribution-grid-snake*.svg /tmp/snake-output/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan output
+          git rm -rf .
+          cp /tmp/snake-output/*.svg .
+          git add github-contribution-grid-snake*.svg
+          git commit -m "chore: update contribution snake"
+          git push --force origin output
