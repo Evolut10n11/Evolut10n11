@@ -2,6 +2,11 @@ name: Generate profile metrics
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/generate_profile_metrics.py"
+      - ".github/workflows/profile-metrics.yml"
+      - "README.md"
   push:
     branches: [main]
     paths:
@@ -29,6 +34,7 @@ jobs:
         run: python scripts/generate_profile_metrics.py
 
       - name: Commit metrics when changed
+        if: github.event_name != 'pull_request'
         shell: bash
         run: |
           set -euo pipefail
