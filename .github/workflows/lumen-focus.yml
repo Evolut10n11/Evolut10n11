@@ -2,6 +2,11 @@ name: Sync Lumen current focus
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/lumen-focus.yml"
+      - "scripts/sync_lumen_focus.py"
   schedule:
     - cron: "41 */6 * * *"
 
