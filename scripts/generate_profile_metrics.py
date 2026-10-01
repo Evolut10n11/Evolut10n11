@@ -88,19 +88,25 @@ def svg_header(width: int, height: int, background: str, border: str) -> list[st
 
 def write_stats_card(path: Path, stats: dict[str, int], *, dark: bool) -> None:
     width, height = 420, 165
-    background = "#0d1117" if dark else "#ffffff"
-    border = "#30363d" if dark else "#d0d7de"
-    title = "#58a6ff" if dark else "#0969da"
-    text = "#e6edf3" if dark else "#1f2328"
-    muted = "#8b949e" if dark else "#656d76"
+    background = "#111a22" if dark else "#f6f9f7"
+    border = "#26343e" if dark else "#d8e4dd"
+    title = "#80d7bd" if dark else "#176b50"
+    text = "#edf4f1" if dark else "#172b25"
+    muted = "#9aaca8" if dark else "#586e63"
+    labels = {
+        "Public repos": "Публичные репозитории",
+        "Stars": "Звёзды",
+        "Forks": "Форки",
+        "Followers": "Подписчики",
+    }
 
     parts = svg_header(width, height, background, border)
-    parts.append(f'<text x="22" y="34" font-size="18" font-weight="600" fill="{title}">GitHub stats</text>')
+    parts.append(f'<text x="22" y="34" font-size="18" font-weight="600" fill="{title}">GitHub в цифрах</text>')
 
     positions = [(22, 76), (220, 76), (22, 128), (220, 128)]
     for (label, value), (x, y) in zip(stats.items(), positions):
         parts.append(f'<text x="{x}" y="{y}" font-size="24" font-weight="700" fill="{text}">{value}</text>')
-        parts.append(f'<text x="{x}" y="{y + 20}" font-size="12" fill="{muted}">{escape(label)}</text>')
+        parts.append(f'<text x="{x}" y="{y + 20}" font-size="12" fill="{muted}">{escape(labels.get(label, label))}</text>')
 
     parts.append("</svg>")
     path.write_text("\n".join(parts) + "\n", encoding="utf-8")
@@ -108,22 +114,22 @@ def write_stats_card(path: Path, stats: dict[str, int], *, dark: bool) -> None:
 
 def write_languages_card(path: Path, languages: Counter[str], *, dark: bool) -> None:
     width, height = 420, 165
-    background = "#0d1117" if dark else "#ffffff"
-    border = "#30363d" if dark else "#d0d7de"
-    title = "#58a6ff" if dark else "#0969da"
-    text = "#e6edf3" if dark else "#1f2328"
-    muted = "#8b949e" if dark else "#656d76"
-    bar_bg = "#21262d" if dark else "#eaeef2"
-    accent = "#2f81f7" if dark else "#0969da"
+    background = "#111a22" if dark else "#f6f9f7"
+    border = "#26343e" if dark else "#d8e4dd"
+    title = "#80d7bd" if dark else "#176b50"
+    text = "#edf4f1" if dark else "#172b25"
+    muted = "#9aaca8" if dark else "#586e63"
+    bar_bg = "#26343e" if dark else "#d8e4dd"
+    accent = "#80d7bd" if dark else "#176b50"
 
     top = languages.most_common(5)
     total = sum(value for _, value in top) or 1
 
     parts = svg_header(width, height, background, border)
-    parts.append(f'<text x="22" y="34" font-size="18" font-weight="600" fill="{title}">Top languages</text>')
+    parts.append(f'<text x="22" y="34" font-size="18" font-weight="600" fill="{title}">Языки в проектах</text>')
 
     if not top:
-        parts.append(f'<text x="22" y="82" font-size="13" fill="{muted}">No public language data yet.</text>')
+        parts.append(f'<text x="22" y="82" font-size="13" fill="{muted}">Публичных данных о языках пока нет.</text>')
     else:
         y = 60
         for language, value in top:

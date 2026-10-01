@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460" role="img" aria-labelledby="title">
+<title id="title">Иван Родионов — AI / LLM Engineer. Инженерия AI: от идеи до системы.</title>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}</style>
+<rect x="1" y="1" width="798" height="458" rx="24" fill="#111a22" stroke="#26343e" stroke-width="2"/>
+<path d="M40 59h25" stroke="#80d7bd" stroke-width="3"/>
+<text x="82" y="68" fill="#edf4f1" font-size="28" font-weight="600" letter-spacing="3">IVAN RODIONOV</text>
+<text x="40" y="168" fill="#edf4f1" font-size="74" font-weight="650" letter-spacing="-2">Инженерия AI.</text>
+<text x="40" y="239" fill="#edf4f1" font-size="54" font-weight="450" letter-spacing="-1.5">От идеи до системы.</text>
+<text x="42" y="299" fill="#9aaca8" font-size="28" font-weight="400" >Агенты · Голос · Инструменты</text>
+<path d="M40 351h720" stroke="#26343e"/>
+<text x="42" y="409" fill="#80d7bd" font-size="24" font-weight="600" letter-spacing="2">AI / LLM ENGINEER</text>
+<path d="M653 399h24l10-20 15 37 15-28 10 11h30" fill="none" stroke="#80d7bd" stroke-width="3"/>
+</svg>

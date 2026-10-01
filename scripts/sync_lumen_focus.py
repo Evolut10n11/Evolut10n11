@@ -92,23 +92,39 @@ def render_focus(mission: dict[str, Any], profile: dict[str, Any]) -> str:
     )
 
 
-def replace_focus(readme: str, block: str) -> str:
+def focus_bounds(readme: str) -> tuple[int, int] | None:
+    start_count = readme.count(START_MARKER)
+    end_count = readme.count(END_MARKER)
+    if start_count == 0 and end_count == 0:
+        return None
+
     start = readme.find(START_MARKER)
     end = readme.find(END_MARKER)
-    if start == -1 or end == -1 or end < start:
+    if start_count != 1 or end_count != 1 or end < start:
         raise RuntimeError("README Lumen focus markers are missing or invalid")
-    end += len(END_MARKER)
+    return start, end + len(END_MARKER)
+
+
+def replace_focus(readme: str, block: str) -> str:
+    bounds = focus_bounds(readme)
+    if bounds is None:
+        raise RuntimeError("README Lumen focus markers are missing or invalid")
+    start, end = bounds
     return readme[:start] + block + readme[end:]
 
 
 def main() -> int:
+    current = README_PATH.read_text(encoding="utf-8")
+    if focus_bounds(current) is None:
+        print("Lumen focus display is disabled; README has no focus markers")
+        return 0
+
     missions = fetch_json(MISSIONS_URL)
     profile = fetch_json(PROFILE_URL)
     if not isinstance(missions, list) or not isinstance(profile, dict):
         raise RuntimeError("Unexpected Lumen state shape")
 
     focus = choose_focus(missions, profile)
-    current = README_PATH.read_text(encoding="utf-8")
     updated = replace_focus(current, render_focus(focus, profile))
 
     if updated == current:
