@@ -1,13 +1,7 @@
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/hero-mobile-dark.svg" />
-  <source media="(max-width: 600px)" srcset="assets/profile/hero-mobile-light.svg" />
-  <source media="(prefers-color-scheme: dark)" srcset="assets/profile/hero-dark.svg" />
-  <img src="assets/profile/hero-light.svg" width="1200" alt="Иван Родионов — AI / LLM Engineer. Инженерия AI: от идеи до системы." />
-</picture>
+
 
 <br /><br />
 
-**Привет, я Иван.** Разрабатываю AI-ассистентов, голосовые интерфейсы и инструменты для разработчиков. Работаю над тем, чтобы за ответом модели стояла понятная система: с API, проверками, наблюдаемостью и воспроизводимым поведением.
 
 <p>
   <a href="https://github.com/Evolut10n11?tab=repositories">Все репозитории ↗</a>
