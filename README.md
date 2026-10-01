@@ -1,55 +1,17 @@
+## Проекты
 
-
-<br /><br />
-
-
-<p>
-  <a href="https://github.com/Evolut10n11?tab=repositories">Все репозитории ↗</a>
-  &nbsp; · &nbsp;
-  <a href="#избранные-проекты">Избранные проекты</a>
-  &nbsp; · &nbsp;
-  <a href="#инструменты-и-подходы">Стек и подходы</a>
-</p>
-
-## Избранные проекты
-
-<div align="center">
-  <a href="https://github.com/Evolut10n11/robotci">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/profile/robotci-dark.svg" />
-      <img src="assets/profile/robotci-light.svg" width="380" alt="RobotCI — регрессионные проверки поведения роботов, сценарии ROS 2 / Nav2, сравнение с эталоном и 2D/3D-просмотр запусков. Python, ROS 2, MCP. Публичная альфа." />
-    </picture>
-  </a>
-  <a href="https://github.com/Evolut10n11/lumen-lab">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/profile/lumen-dark.svg" />
-      <img src="assets/profile/lumen-light.svg" width="380" alt="Lumen Lab — персональный desktop-ассистент: цели, обратная связь и выбор следующей задачи с локальным хранением контекста. Python, React, Tauri." />
-    </picture>
-  </a>
-  <a href="https://github.com/Evolut10n11/ElainNewLLM">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/profile/elaine-dark.svg" />
-      <img src="assets/profile/elaine-light.svg" width="380" alt="Elaine — голосовой AI-ассистент для Twitch: распознавание речи, локальная LLM и озвучивание ответов. Python, Whisper, Silero TTS." />
-    </picture>
-  </a>
-  <a href="https://github.com/Evolut10n11/local-ai-doc-agent">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/profile/documents-dark.svg" />
-      <img src="assets/profile/documents-light.svg" width="380" alt="Local AI Doc Agent — локальные ответы по PDF, DOCX и TXT: правила извлечения данных и LLM fallback без облачных API. Python, FastAPI, llama.cpp." />
-    </picture>
-  </a>
-</div>
-
-## Инструменты и подходы
-
-| Направление | С чем работаю |
+| Проект | Описание |
 | :--- | :--- |
-| **AI / LLM** | Python · RAG · агенты · tool calling · structured output · оценка ответов |
-| **Сервисы и интеграции** | FastAPI · REST API · webhooks · PostgreSQL |
-| **Качество и наблюдаемость** | pytest · GitHub Actions · Langfuse · трассировка · fallback |
-| **Голос и локальные модели** | Whisper · TTS · Qwen · OpenAI-compatible API |
+| [**RobotCI**](https://github.com/Evolut10n11/robotci) | Регрессионные проверки поведения роботов: сценарии ROS 2 / Nav2, сравнение запусков и 2D/3D-просмотр. |
+| [**Lumen Lab**](https://github.com/Evolut10n11/lumen-lab) | Desktop-ассистент для работы с целями и задачами. Контекст хранится локально. |
+| [**Elaine**](https://github.com/Evolut10n11/ElainNewLLM) | Голосовой ассистент для Twitch: распознавание речи, локальная LLM и озвучивание ответов. |
+| [**Local AI Doc Agent**](https://github.com/Evolut10n11/local-ai-doc-agent) | Ответы по PDF, DOCX и TXT: извлечение данных по правилам и LLM fallback без облачных API. |
 
-Меня интересует весь путь: **данные → модель → действие → проверка результата**.
+## Стек
+
+**Backend:** Python · FastAPI · PostgreSQL · REST API · webhooks<br />
+**AI:** RAG · агенты · tool calling · Whisper · TTS<br />
+**Качество:** pytest · GitHub Actions · Langfuse · оценка ответов
 
 <details>
 <summary><b>GitHub в цифрах</b></summary>
@@ -74,7 +36,3 @@
 </p>
 
 </details>
-
----
-
-<p align="center"><sub>IVAN RODIONOV &nbsp; / &nbsp; AI · VOICE · DEVELOPER TOOLS</sub></p>
