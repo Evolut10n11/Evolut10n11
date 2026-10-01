@@ -1,15 +1,31 @@
-"""Generate the profile's self-contained, theme-aware SVG artwork (stdlib only)."""
-
+"""Generate restrained, theme-aware profile cards and technology labels."""
 from pathlib import Path
 from xml.sax.saxutils import escape
-import math
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "assets" / "profile"
+OUT = Path(__file__).resolve().parents[1] / "assets" / "profile"
 THEMES = {
-    "dark": dict(bg="#111a22", panel="#15222b", border="#26343e", text="#edf4f1", muted="#9aaca8", accent="#80d7bd", line="#36584f"),
-    "light": dict(bg="#f6f9f7", panel="#edf3ef", border="#d8e4dd", text="#172b25", muted="#586e63", accent="#176b50", line="#b2ccbf"),
+    "dark": {"bg": "#131922", "border": "#2a3442", "text": "#edf1f7", "muted": "#a5afbf", "chip": "#1b2330", "chip_text": "#c2cbd8"},
+    "light": {"bg": "#fafbfd", "border": "#dce2eb", "text": "#202a3c", "muted": "#5e6a7e", "chip": "#f0f3f8", "chip_text": "#4e5c73"},
 }
+PROJECTS = [
+    {"id": "robotci", "title": "RobotCI", "category": "ROBOTICS / DEVEX", "colors": ("#99b8fa", "#456ba7"),
+     "description": ["Регрессионные проверки роботов.", "Сценарии ROS 2 / Nav2, сравнение", "запусков и 2D/3D-просмотр."],
+     "tags": ["Python", "ROS 2", "MCP"],
+     "icon": '<rect x="15" y="22" width="46" height="34" rx="9"/><path d="M38 14v8M9 35v11m58-11v11M26 56v7m24-7v7"/><circle cx="29" cy="38" r="2"/><circle cx="47" cy="38" r="2"/><path d="M30 47h16"/>'},
+    {"id": "lumen", "title": "Lumen Lab", "category": "PERSONAL AI", "colors": ("#b9a9e6", "#7c60a5"),
+     "description": ["Desktop-ассистент для работы", "с целями и задачами.", "Контекст хранится локально."],
+     "tags": ["Python", "React", "Tauri"],
+     "icon": '<rect x="12" y="16" width="52" height="40" rx="7"/><path d="M12 29h52M25 64h26M38 56v8M22 22h1m6 0h1M24 39h13m-13 8h27"/>'},
+    {"id": "elaine", "title": "Elaine", "category": "VOICE / LLM", "colors": ("#83cbbd", "#387d71"),
+     "description": ["Голосовой ассистент для Twitch.", "Распознавание речи, локальная LLM", "и озвучивание ответов."],
+     "tags": ["Whisper", "LLM", "Silero TTS"],
+     "icon": '<path d="M12 33v10m9-19v28m9-37v46m9-35v24m9-30v36m9-43v50m9-34v18" stroke-linecap="round"/>'},
+    {"id": "documents", "title": "Local AI Doc Agent", "category": "DOCUMENT AI", "colors": ("#aabbd6", "#627ca3"),
+     "description": ["Ответы по PDF, DOCX и TXT.", "Извлечение данных по правилам", "и локальный LLM fallback."],
+     "tags": ["Python", "FastAPI", "llama.cpp"],
+     "icon": '<path d="M24 12h26l12 12v37a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4ZM49 12v15h13M29 38h23M29 47h23M29 56h15M12 24v40a8 8 0 0 0 8 8"/>'},
+]
+TOOLS = [("python", "Python"), ("fastapi", "FastAPI"), ("postgresql", "PostgreSQL"), ("qwen", "Qwen"), ("langfuse", "Langfuse"), ("github-actions", "GitHub Actions")]
 
 
 def text(x, y, value, size, color, weight=400, extra=""):
@@ -18,97 +34,55 @@ def text(x, y, value, size, color, weight=400, extra=""):
 
 def svg(width, height, title, body, padding=0):
     return "\n".join([
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width + padding * 2}" height="{height + padding * 2}" viewBox="{-padding} {-padding} {width + padding * 2} {height + padding * 2}" role="img" aria-labelledby="title">',
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width + 2 * padding}" height="{height + 2 * padding}" viewBox="{-padding} {-padding} {width + 2 * padding} {height + 2 * padding}" role="img" aria-labelledby="title">',
         f'<title id="title">{escape(title)}</title>',
         '<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}</style>',
-        *body,
-        '</svg>',
-        '',
+        *body, '</svg>', '',
     ])
 
 
-def hero(c):
+def card(project, theme):
+    c = THEMES[theme]
+    accent = project["colors"][theme == "light"]
     body = [
-        f'<rect x="1" y="1" width="1198" height="418" rx="24" fill="{c["bg"]}" stroke="{c["border"]}" stroke-width="2"/>',
-        f'<path d="M48 56h24" stroke="{c["accent"]}" stroke-width="3"/>',
-        text(86, 63, "IVAN RODIONOV", 19, c["text"], 600, 'letter-spacing="3"'),
-        text(48, 157, "Инженерия AI.", 66, c["text"], 650, 'letter-spacing="-2"'),
-        text(48, 229, "От идеи до системы.", 53, c["text"], 450, 'letter-spacing="-1.5"'),
-        text(50, 279, "Агенты · Голос · Инструменты разработчика", 23, c["muted"]),
-        f'<path d="M48 335h1104" stroke="{c["border"]}"/>',
-        text(50, 378, "AI / LLM ENGINEER", 16, c["accent"], 600, 'letter-spacing="2.5"'),
-        text(1150, 378, "@Evolut10n11", 17, c["muted"], 400, 'text-anchor="end"'),
+        f'<rect x="1" y="1" width="798" height="372" rx="20" fill="{c["bg"]}" stroke="{c["border"]}" stroke-width="2"/>',
+        text(40, 51, project["category"], 19, accent, 500, 'letter-spacing="2"'),
+        text(40, 116, project["title"], 48, c["text"], 600, 'letter-spacing="-1"'),
+        f'<rect x="672" y="32" width="86" height="86" rx="21" fill="{accent}" fill-opacity=".07"/>',
+        f'<g transform="translate(677 37)" fill="none" stroke="{accent}" stroke-width="2.4" stroke-linejoin="round">{project["icon"]}</g>',
     ]
-    # An orbital signal: original vector geometry, no fonts or remote assets required.
-    body.append(f'<g fill="none" stroke="{c["line"]}" stroke-width="1.4">')
-    for radius in [61, 105, 149]:
-        body.append(f'<circle cx="978" cy="174" r="{radius}"/>')
-    body.extend([
-        '<path d="M804 174h348M978 22v304" stroke-dasharray="3 9"/>',
-        '<ellipse cx="978" cy="174" rx="158" ry="55" transform="rotate(-32 978 174)"/>',
-        '</g>',
-    ])
-    pts = []
-    for i in range(301):
-        x = 821 + i
-        envelope = math.exp(-((i - 150) / 58) ** 2)
-        y = 174 + math.sin(i / 7.3) * envelope * 49
-        pts.append(f'{x},{y:.2f}')
-    body.append(f'<polyline points="{" ".join(pts)}" fill="none" stroke="{c["accent"]}" stroke-width="2.8"/>')
-    for x, y, r in [(1104, 95, 5), (922, 264, 4), (978, 174, 6)]:
-        body.append(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{c["accent"]}"/>')
-    return svg(1200, 420, "Иван Родионов — AI / LLM Engineer. Инженерия AI: от идеи до системы.", body)
+    for i, line in enumerate(project["description"]):
+        body.append(text(42, 179 + i * 36, line, 29, c["muted"]))
+    x = 40
+    for tag in project["tags"]:
+        width = len(tag) * 13 + 30
+        body.extend([
+            f'<rect x="{x}" y="298" width="{width}" height="40" rx="9" fill="{c["chip"]}"/>',
+            text(x + 15, 325, tag, 22, c["chip_text"], 450),
+        ])
+        x += width + 12
+    body.append(f'<path d="M716 321h30m0 0-10-10m10 10-10 10" fill="none" stroke="{c["muted"]}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>')
+    return svg(800, 374, project["title"] + ". " + " ".join(project["description"]), body, padding=12)
 
 
-def mobile_hero(c):
+def badge(label, theme):
+    c = THEMES[theme]
+    width = len(label) * 7.1 + 26
     body = [
-        f'<rect x="1" y="1" width="798" height="458" rx="24" fill="{c["bg"]}" stroke="{c["border"]}" stroke-width="2"/>',
-        f'<path d="M40 59h25" stroke="{c["accent"]}" stroke-width="3"/>',
-        text(82, 68, "IVAN RODIONOV", 28, c["text"], 600, 'letter-spacing="3"'),
-        text(40, 168, "Инженерия AI.", 74, c["text"], 650, 'letter-spacing="-2"'),
-        text(40, 239, "От идеи до системы.", 54, c["text"], 450, 'letter-spacing="-1.5"'),
-        text(42, 299, "Агенты · Голос · Инструменты", 28, c["muted"]),
-        f'<path d="M40 351h720" stroke="{c["border"]}"/>',
-        text(42, 409, "AI / LLM ENGINEER", 24, c["accent"], 600, 'letter-spacing="2"'),
-        f'<path d="M653 399h24l10-20 15 37 15-28 10 11h30" fill="none" stroke="{c["accent"]}" stroke-width="3"/>',
+        f'<rect x=".5" y=".5" width="{width - 1}" height="29" rx="7" fill="{c["bg"]}" stroke="{c["border"]}"/>',
+        text(width / 2, 20, label, 12.5, c["chip_text"], 500, 'text-anchor="middle"'),
     ]
-    return svg(800, 460, "Иван Родионов — AI / LLM Engineer. Инженерия AI: от идеи до системы.", body)
-
-
-PROJECTS = [
-    ("robotci", "01 / ROBOTICS & DEVEX", "RobotCI", ["Проверки поведения роботов.", "Повторяемые сценарии ROS 2 / Nav2,", "сравнение с эталоном и просмотр", "запусков в 2D и 3D."], "Python  /  ROS 2  /  MCP", "ПУБЛИЧНАЯ АЛЬФА"),
-    ("lumen", "02 / PERSONAL AI", "Lumen Lab", ["Персональный desktop-ассистент.", "Цели, обратная связь и выбор", "следующей задачи — с контекстом,", "который хранится локально."], "Python  /  React  /  Tauri", "ЛОКАЛЬНЫЙ КОНТЕКСТ"),
-    ("elaine", "03 / VOICE INTERFACES", "Elaine", ["Голосовой AI-ассистент для Twitch.", "Распознавание речи, локальная LLM", "и озвучивание ответов в одном", "диалоговом цикле."], "Python  /  Whisper  /  Silero TTS", "ГОЛОС + LLM"),
-    ("documents", "04 / DOCUMENT AI", "Local AI Doc Agent", ["Ответы на вопросы по документам.", "PDF, DOCX и TXT, правила извлечения", "данных и LLM fallback без", "облачных API."], "Python  /  FastAPI  /  llama.cpp", "ЛОКАЛЬНАЯ ОБРАБОТКА"),
-]
-
-
-def card(c, category, title, lines, stack, label):
-    body = [
-        f'<rect x="1" y="1" width="798" height="434" rx="22" fill="{c["bg"]}" stroke="{c["border"]}" stroke-width="2"/>',
-        text(38, 49, category, 20, c["accent"], 500, 'letter-spacing="2"'),
-        text(38, 121, title, 49, c["text"], 600, 'letter-spacing="-1"'),
-        f'<path d="M726 95h28m0 0-12-12m12 12-12 12" fill="none" stroke="{c["accent"]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
-    ]
-    for i, line in enumerate(lines):
-        body.append(text(40, 180 + i * 36, line, 28, c["muted"]))
-    body.extend([
-        f'<path d="M38 320h724" stroke="{c["border"]}" stroke-width="2"/>',
-        text(40, 361, stack, 22, c["text"], 500),
-        f'<circle cx="44" cy="402" r="4" fill="{c["accent"]}"/>',
-        text(61, 408, label, 16, c["muted"], 400, 'letter-spacing="1.5"'),
-    ])
-    return svg(800, 436, f'{title}. {" ".join(lines)} {stack}. {label}.', body, padding=10)
+    return svg(round(width, 1), 30, label, body, padding=3)
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    for theme, colors in THEMES.items():
-        (OUT / f"hero-{theme}.svg").write_text(hero(colors), encoding="utf-8")
-        (OUT / f"hero-mobile-{theme}.svg").write_text(mobile_hero(colors), encoding="utf-8")
-        for key, category, title, lines, stack, label in PROJECTS:
-            (OUT / f"{key}-{theme}.svg").write_text(card(colors, category, title, lines, stack, label), encoding="utf-8")
-    print("Generated 12 self-contained profile SVGs.")
+    for theme in THEMES:
+        for project in PROJECTS:
+            (OUT / f'{project["id"]}-{theme}.svg').write_text(card(project, theme), encoding="utf-8")
+        for key, label in TOOLS:
+            (OUT / f"tool-{key}-{theme}.svg").write_text(badge(label, theme), encoding="utf-8")
+    print("Generated 8 project cards and 12 technology labels.")
 
 
 if __name__ == "__main__":
